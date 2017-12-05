@@ -6,8 +6,8 @@
 
 ##phlava.pyw
 
-![Alt tag](./img/phlava.pyw.png?raw=true "phlava.pyw")
+![Alt tag](./scr/phlava.pyw.png?raw=true "phlava.pyw")
 
 ##zvhl.pyw
 
-![Alt tag](./img/zvhl.pyw.png?raw=true "zvhl.pyw")
+![Alt tag](./scr/zvhl.pyw.png?raw=true "zvhl.pyw")
