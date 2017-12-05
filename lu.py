@@ -1,11 +1,8 @@
 '''modul lu.py - laundry utils'''
 
-
-#Trida Kus pro vypocet skladu, vlhkosti
 class Kus:
     """Trida pro vypocet skladu, zbytkove vlhkosti"""
     
-    #konstruktor
     def __init__(self, na):
         self.name = na
         #limitni velikost pro stohovac (cm)
@@ -16,21 +13,20 @@ class Kus:
         #rozmery
         self.sirka = 0
         self.delka = 0
+        self.l = 2 #podelne sklady
+        self.x = 2 #pricny sklady
+        self.dr = 2 #pocet drah
         
-    #vypocita pocet skladu
-    def sklady(self,x,y):
+    def _sklady(self,x,y):
         """Idelani pocet skladu"""
         if(x > self.limit_2drahy):
             dr = 1
         else:
             dr = 2
         if(x/4 > self.limit_sirka):
-            x = x/8
-            x -= 8 #odecte ohyb pradla
             xf = 3
         else:
             x = x/4
-            x -= 5
             xf = 2
         if(y/4 > self.limit_delka):
             y = y/8
@@ -38,19 +34,19 @@ class Kus:
         else:
             y = y/4
             yf = 2
-        return[xf, yf, dr]
+            
+        return[yf, xf, dr]
     
-    #vkladani kratsi stranou
-    def vkl_kratsi(self):
-        self.l, self.x, self.dr = self.sklady(self.sirka, self.delka)
+    def _vkl_kratsi(self):
+        #vkladani kratsi stranou
+        self.l, self.x, self.dr = self._sklady(self.sirka, self.delka)
     
-    #vkladani delsi stranou
-    def vkl_delsi(self):
-        """pouziti objekt.Vkl_delsi()"""
-        self.l, self.x, self.dr = self.sklady(self.delka, self.sirka)
+    def _vkl_delsi(self):
+        #vkladani delsi stranou
+        self.l, self.x, self.dr = self._sklady(self.delka, self.sirka)
     
-    #vypocet zbytkove vlkosti
     def vlhkost(pred, po):
+        #zbytkova vlhkost
         try:
             return round(((pred-po)/pred)*100, 2)
         except ZeroDivisionError:
@@ -61,12 +57,12 @@ class Pipe:
     Zadej __init__(prumer v mm)
     objem(delka v metrech)"""
     
-    #kostruktor Pipe(prumer trubky v mm)    
     def __init__(self, prumer=50):
+        #zadani v mm
         self.prumer = prumer
-            
-    #vypocita objem vody v trubce dlouhe x metru    
+        
     def objem(self, delka=1):
+        #delka v m
         from math import pi
         r = (self.prumer / 2) / 100
         h = delka * 10
@@ -110,4 +106,3 @@ class Rph:
         print("Ph Lavatec - {0}".format(self.ph_lavatec))
         print("Vodivost Lavatec - {0}ms".format(self.ec_lavatec))
         print("\n---------------------------------\n")
-    

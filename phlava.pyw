@@ -17,7 +17,7 @@ APPNAME = 'Ph Lavatec - '
 
 class NalezenoExcept(Exception): pass
 
-class App(Frame):
+class Phlava(Frame):
 
     def ziskej(self):
         '''ziska data z prevodniku'''
@@ -27,38 +27,39 @@ class App(Frame):
             doc = parse(u)
             self.parent.title(APPNAME + 'ONLINE')
             
+            try:            
+                for ch in doc.findall('.//{http://www.papouch.com/xml/ad4eth/act}input'):
+                    i = ch.attrib.get('id')
+                    name = ch.attrib.get('name')
+                    val = ch.attrib.get('val')
+                    if(name == 'Lavatec'):
+                        raise NalezenoExcept()
+                    
+            except NalezenoExcept:
+                self.ph = val
+            
         except URLError as err:
-            #nelze ziskat data pouzij mistni soubor
+            #nelze ziskat data
             print(err, file=sys.stderr)
             self.parent.title(APPNAME + 'OFFLINE')
-            try:
-                doc = parse('data.xml')
-            except FileNotFoundError:
-                print("Nemohu pokracovat :-(", file=sys.stderr)
-                sys.exit(0)
             
-        try:            
-            for ch in doc.findall('.//{http://www.papouch.com/xml/ad4eth/act}input'):
-                i = ch.attrib.get('id')
-                name = ch.attrib.get('name')
-                val = ch.attrib.get('val')
-                if(name == 'Lavatec'):
-                    raise NalezenoExcept()
-                    
-        except NalezenoExcept:
-            self.l.config(text='Ph - '+str(val))
-        
         finally:
+            self._update()
             self.after(5000, self.ziskej)
     
+    def _update(self):
+        #aktualizuje ph
+        self.l.config(text='Ph - '+str(self.ph))
+        
     def __init__(self, parent):
         Frame.__init__(self, parent)
         self.parent = parent
+        self.ph = 7
         self.parent.resizable(False, False)
         self.l = ttk.Label(self.parent, text='Ph', relief="ridge", font=(None, 100))
         self.l.pack(padx=10, pady=10)
         self.ziskej()
         
 root = Tk()
-app = App(root)
+app = Phlava(root)
 app.mainloop()
