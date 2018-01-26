@@ -12,8 +12,8 @@ from urllib.error import URLError
 from xml.etree.ElementTree import parse
 from tkinter import Tk, Frame, ttk
 
-CESTA = 'http://192.168.1.254/data.xml'
-APPNAME = 'Ph Lavatec - '
+CESTA = 'http://10.50.8.20/data.xml'
+APPNAME = 'pH Lavatec - '
 
 class NalezenoExcept(Exception): pass
 
@@ -32,7 +32,7 @@ class Phlava(Frame):
                     i = ch.attrib.get('id')
                     name = ch.attrib.get('name')
                     val = ch.attrib.get('val')
-                    if(name == 'Lavatec'):
+                    if(name == 'Ph Lavatec'):
                         raise NalezenoExcept()
                     
             except NalezenoExcept:
@@ -49,14 +49,14 @@ class Phlava(Frame):
     
     def _update(self):
         #aktualizuje ph
-        self.l.config(text='Ph - '+str(self.ph))
+        self.l.config(text='pH - '+str(self.ph))
         
     def __init__(self, parent):
         Frame.__init__(self, parent)
         self.parent = parent
         self.ph = 7
         self.parent.resizable(False, False)
-        self.l = ttk.Label(self.parent, text='Ph', relief="ridge", font=(None, 100))
+        self.l = ttk.Label(self.parent, text='pH', relief="ridge", font=(None, 100))
         self.l.pack(padx=10, pady=10)
         self.ziskej()
         

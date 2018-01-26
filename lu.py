@@ -1,5 +1,21 @@
 '''modul lu.py - laundry utils'''
 
+class Caesar:
+    """caesar sifra (visuvash)"""
+    
+    def dekoduj(retezec):
+        x = 3
+        vystup = []
+        for i in range(len(retezec)):
+            ch = ord(retezec[i])
+            if(ch > 10):
+                vystup.append(chr(ch-x))
+                x -= 1
+                if(x == 0):
+                    x = 3
+        out = ''.join(vystup)
+        return(out)
+    
 class Kus:
     """Trida pro vypocet skladu, zbytkove vlhkosti"""
     

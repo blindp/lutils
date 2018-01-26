@@ -29,7 +29,7 @@ class Vlhkost:
         self.label_per = Label(self.labelf_per, text="0")
         self.pocitej()
         
-        #rovrzeni
+        #rozvrzeni
         self.label_in.grid(row=0, column=0, sticky=W+E, padx=10, pady=5)
         self.entry_in.grid(row=0, column=0, sticky=W+E, padx=5, pady=5)
         self.label_out.grid(row=1, column=0, sticky=W+E, padx=10, pady=5)
